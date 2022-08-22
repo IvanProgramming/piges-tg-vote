@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 1.0.0
+servers:
+  - url: https://vote.ivanisplaying.xyz
+paths:
+  /:
+    get:
+      x-yc-apigateway-integration:
+        type: object_storage
+        bucket: piges
+        object: index.html
+        presigned_redirect: true
+        service_account_id: <SERVICE_ACCOUNT_ID>
+  /authTg:
+    get:
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: <AUTH_FUNCTION_ID>
+        tag: $latest
+        service_account_id: <SERVICE_ACCOUNT_ID>
+  /profile:
+    get:
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: <PROFILE_FUNCTION_ID>
+        tag: $latest
+        service_account_id: <SERVICE_ACCOUNT_ID>
+      security:
+        - JWTAuth: []
+  /vote:
+    post:
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: <VOTE_FUNCTION_ID>
+        tag: $latest
+        service_account_id: <SERVICE_ACCOUNT_ID>
+      security:
+        - JWTAuth: []
+  /candidates:
+    get:
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: <CANDIDATES_FUNCTION_ID>
+        tag: $latest
+        service_account_id: <SERVICE_ACCOUNT_ID>
+components:
+  headers: {}
+  parameters: {}
+  responses: {}
+  schemas: {}
+  securitySchemes:
+    JWTAuth:
+      bearerFormat: JWT
+      description: "Example: \n> Authorization: Bearer <token>"
+      x-yc-apigateway-authorizer:
+        type: function
+        function_id: <AUTHORIZE_JWT_FUNCTION_ID>
+        tag: $latest
+        service_account_id:  <SERVICE_ACCOUNT_ID>
+        authorizer_result_ttl_in_seconds: 1
+      scheme: bearer
+      type: http

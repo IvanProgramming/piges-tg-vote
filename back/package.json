@@ -1,0 +1,16 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "auth.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@yandex-cloud/nodejs-sdk": "^2.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "ydb-sdk": "^3.3.2"
+  }
+}
